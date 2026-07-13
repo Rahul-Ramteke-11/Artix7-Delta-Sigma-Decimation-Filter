@@ -143,4 +143,4 @@ To run the core algorithmic verification on any Linux, macOS, or Windows termina
 
 ## Author
 
-**Rahul Ramteke** *Third Year Undergraduate Student, Indian Institute of Technology Gandhinagar* *Specialization: Analog & Mixed-Signal IC Design / RTL Architecture / 3D ICs* *For professional inquiries, architecture discussions, or ASIC engineering roles, please reach out via GitHub or LinkedIn.*
+**Rahul Ramteke** *Third Year Undergraduate Student, Indian Institute of Technology Gandhinagar* ; *Specialization: Analog & Mixed-Signal IC Design / RTL Architecture / 3D ICs* *For professional inquiries, architecture discussions, or ASIC engineering roles, please reach out via GitHub or LinkedIn.*
