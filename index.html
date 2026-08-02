@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Artix-7 Delta-Sigma Decimation Filter — Rahul Ramteke | IIT Gandhinagar</title>
+  <meta name="description" content="A multiplier-free CIC decimation filter for 1-bit ΔΣ modulation, implemented on the Xilinx Artix-7 XC7A35T FPGA. Zero DSP slices, 36-bit baseband precision at 4 kHz output strobe." />
+  <meta property="og:title" content="Artix-7 Mixed-Signal Interface — Silicon Portfolio" />
+  <meta property="og:description" content="Scroll through an exploded 3D view of the Xilinx Artix-7 FPGA and explore the hardware-verified CIC decimation pipeline." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#060608" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <script type="module" crossorigin src="/Artix7-Delta-Sigma-Decimation-Filter/assets/index-BWFSVeA9.js"></script>
+  <link rel="stylesheet" crossorigin href="/Artix7-Delta-Sigma-Decimation-Filter/assets/index-oz2v8uyy.css">
+</head>
+<body>
+
+  <!-- ===== LOADING SCREEN ===== -->
+  <div id="loader" class="loader">
+    <div class="loader__ring"></div>
+    <p class="loader__text" id="loader-text">Loading Frames… 0%</p>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" class="navbar">
+    <div class="navbar__inner">
+      <a href="#" class="navbar__brand" id="nav-brand">
+        Rahul Ramteke <span class="navbar__separator">—</span> Artix-7 Delta-Sigma Decimation Filter
+      </a>
+      <div class="navbar__actions">
+        <a
+          id="nav-github"
+          href="https://github.com/Rahul-Ramteke-11/Artix7-Delta-Sigma-Decimation-Filter"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="navbar__btn"
+        >
+          <svg class="navbar__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.754-1.333-1.754-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          GitHub
+        </a>
+        <a
+          id="nav-linkedin"
+          href="https://www.linkedin.com/in/rahul-ramteke-24110288rr"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="navbar__btn navbar__btn--primary"
+        >
+          <svg class="navbar__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO: SCROLL-DRIVEN CANVAS ===== -->
+  <section id="hero" class="hero">
+    <div class="hero__sticky">
+      <div class="hero__ambient"></div>
+      <canvas id="silicon-canvas" class="hero__canvas"></canvas>
+
+      <!-- Frosted-Glass HUD Cards (anchored to corners) -->
+      <div id="overlay-1" class="hud hud--left" data-start="0" data-end="0.20">
+        <p class="hud__label">Mixed-Signal Interface</p>
+        <h1 class="hud__heading">Artix-7 Mixed-Signal Interface</h1>
+        <p class="hud__sub">Crossing the Analog / Digital Boundary</p>
+      </div>
+
+      <div id="overlay-2" class="hud hud--right" data-start="0.25" data-end="0.45">
+        <p class="hud__label">Front-End Speed</p>
+        <h2 class="hud__heading">1-Bit Pulse Density Modulation</h2>
+        <p class="hud__sub">512 kHz Extreme Oversampling Rate <span class="hud__accent">(OSR&nbsp;=&nbsp;128)</span></p>
+      </div>
+
+      <div id="overlay-3" class="hud hud--left" data-start="0.50" data-end="0.75">
+        <p class="hud__label">Multiplier-Free Math</p>
+        <h2 class="hud__heading">Cascaded Integrator-Comb Decimation</h2>
+        <p class="hud__sub">Zero DSP Multipliers Consumed</p>
+      </div>
+
+      <div id="overlay-4" class="hud hud--right" data-start="0.80" data-end="1.0">
+        <p class="hud__label">The Nyquist Output</p>
+        <h2 class="hud__heading">36-Bit Baseband Precision</h2>
+        <p class="hud__sub">Perfectly Timed at 4 kHz Output Strobe</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALAXY BACKGROUND WRAPPER (post-hero) ===== -->
+  <div id="galaxy-wrap" class="galaxy-wrap">
+    <canvas id="starfield-canvas" class="starfield-canvas"></canvas>
+
+  <!-- ===== BENTO BOX SPECS ===== -->
+  <section id="specs" class="specs">
+    <h2 class="specs__title">Hardware Verification Metrics</h2>
+    <p class="specs__subtitle">AMD Vivado — Post-Implementation Results on XC7A35T</p>
+
+    <div class="bento">
+      <!-- Box 1: Area Efficiency (double-width) -->
+      <div class="bento__card bento__card--wide" id="spec-dsp">
+        <p class="bento__label">Area Efficiency</p>
+        <h3 class="bento__stat bento__stat--gradient">0% DSP Slice Usage</h3>
+        <p class="bento__ratio">(0 / 90)</p>
+        <p class="bento__desc">
+          By utilizing an integrator-comb topology, traditional hardware multipliers were completely 
+          eliminated — saving critical silicon real estate and power.
+        </p>
+      </div>
+
+      <!-- Box 2: Logic Footprint (centered) -->
+      <div class="bento__card bento__card--centered" id="spec-logic">
+        <p class="bento__label">Logic Footprint</p>
+        <div class="bento__metric-group bento__metric-group--centered">
+          <div class="bento__metric bento__metric--centered">
+            <span class="bento__metric-value">&lt;&nbsp;2%</span>
+            <span class="bento__metric-label">Slice LUTs</span>
+            <span class="bento__metric-ratio">410 / 20,800</span>
+          </div>
+          <div class="bento__divider"></div>
+          <div class="bento__metric bento__metric--centered">
+            <span class="bento__metric-value">&lt;&nbsp;1%</span>
+            <span class="bento__metric-label">Registers</span>
+            <span class="bento__metric-ratio">346 / 41,600</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box 3: Multi-Rate Clocking (separated freq boxes + labels below) -->
+      <div class="bento__card" id="spec-clocks">
+        <p class="bento__label">Multi-Rate Clocking</p>
+        <div class="clock-flow">
+          <!-- Column 1 -->
+          <div class="clock-flow__col">
+            <div class="clock-flow__box">
+              <span class="clock-flow__freq">100 MHz</span>
+            </div>
+            <span class="clock-flow__name">Master Quartz Oscillator</span>
+          </div>
+          <!-- Arrow 1 -->
+          <div class="clock-flow__arrow">
+            <span class="clock-flow__pulse"></span>
+            <svg class="clock-flow__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </div>
+          <!-- Column 2 -->
+          <div class="clock-flow__col">
+            <div class="clock-flow__box">
+              <span class="clock-flow__freq">512 kHz</span>
+            </div>
+            <span class="clock-flow__name">Synchronous PDM Clock</span>
+          </div>
+          <!-- Arrow 2 -->
+          <div class="clock-flow__arrow">
+            <span class="clock-flow__pulse"></span>
+            <svg class="clock-flow__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </div>
+          <!-- Column 3 -->
+          <div class="clock-flow__col">
+            <div class="clock-flow__box">
+              <span class="clock-flow__freq">4 kHz</span>
+            </div>
+            <span class="clock-flow__name">Nyquist Decimation Strobe</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box 4: Hardware Proof (centered full-width) -->
+      <div class="bento__card bento__card--proof" id="spec-proof">
+        <p class="bento__label">Hardware Proof</p>
+        <div class="bento__badge">
+          <svg class="bento__badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 12l2 2 4-4"/>
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+          </svg>
+          <span class="bento__badge-text">Gate-Level Tape-Out Verified</span>
+        </div>
+        <p class="bento__desc">
+          Verified zero metastable transitions during a 10ms real-time execution window across three distinct clock domains using AMD Vivado XSIM.
+        </p>
+      </div>
+
+      <!-- Box 5: About the Architect (full-width) -->
+      <div class="bento__card bento__card--architect" id="spec-architect">
+        <p class="bento__label">About the Architect</p>
+        <h3 class="bento__architect-name">Rahul Ramteke</h3>
+        <p class="bento__desc">
+          Currently pursuing a B.Tech in Chemical Engineering with a minor in Integrated Circuits Design and Technology at the Indian Institute of Technology (IIT) Gandhinagar.
+        </p>
+        <p class="bento__desc" style="margin-top: 16px;">
+          This project serves as a practical bridge between chemical process modeling, Python-based automation, and physical digital logic. The focus is on translating complex mathematical concepts into highly efficient, verified RTL architectures.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SILICON DEEP-DIVE TABS ===== -->
+  <section id="deep-dive" class="deep-dive">
+    <h2 class="deep-dive__title">Architectural Deep-Dive</h2>
+    <p class="deep-dive__subtitle">From Equation to Gate-Level Silicon</p>
+
+    <div class="tabs" id="tabs">
+      <div class="tabs__nav" role="tablist">
+        <button class="tabs__btn tabs__btn--active" role="tab" aria-selected="true" aria-controls="tab-panel-1" data-tab="0" id="tab-btn-1">
+          <span class="tabs__btn-icon tabs__btn-icon--amber">⚡</span>
+          1-Bit Modulator Front-End
+        </button>
+        <button class="tabs__btn" role="tab" aria-selected="false" aria-controls="tab-panel-2" data-tab="1" id="tab-btn-2">
+          <span class="tabs__btn-icon tabs__btn-icon--cyan">∑</span>
+          Multiplier-Free CIC Math
+        </button>
+        <button class="tabs__btn" role="tab" aria-selected="false" aria-controls="tab-panel-3" data-tab="2" id="tab-btn-3">
+          <span class="tabs__btn-icon tabs__btn-icon--purple">◈</span>
+          Physical FPGA Mapping
+        </button>
+      </div>
+
+      <div class="tabs__panels">
+        <!-- Tab Panel 1 -->
+        <div class="tabs__panel tabs__panel--active" role="tabpanel" id="tab-panel-1" aria-labelledby="tab-btn-1">
+          <div class="tabs__panel-inner">
+            <h3 class="tabs__panel-title">Oversampling &amp; Pulse Density Modulation</h3>
+            <div class="tabs__panel-body">
+              <p>
+                The delta-sigma (ΔΣ) modulator front-end converts continuous analog voltages into a 
+                <strong>1-bit pulse density modulated</strong> (PDM) bitstream at an extreme oversampling 
+                rate of <span class="tabs__highlight">512 kHz</span>.
+              </p>
+              <div class="tabs__equation">
+                <span class="tabs__eq-label">Oversampling Ratio</span>
+                <code class="tabs__eq-code">OSR = f_s / (2 · f_Nyquist) = 512,000 / (2 × 2,000) = 128</code>
+              </div>
+              <p>
+                At OSR = 128, the quantization noise is pushed far above the signal band. The density of 
+                logic-high pulses in the bitstream is directly proportional to the instantaneous analog 
+                input voltage — a voltage of 0 V produces a 50% pulse density, while full-scale inputs 
+                approach 0% or 100%.
+              </p>
+              <p>
+                This single-bit approach eliminates the need for precision DACs and drastically simplifies 
+                the analog front-end, trading analog complexity for digital oversampling headroom.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Panel 2 -->
+        <div class="tabs__panel" role="tabpanel" id="tab-panel-2" aria-labelledby="tab-btn-2">
+          <div class="tabs__panel-inner">
+            <h3 class="tabs__panel-title">Cascaded Integrator-Comb (CIC) Decimation</h3>
+            <div class="tabs__panel-body">
+              <p>
+                The CIC filter is a <strong>multiplier-free</strong> decimation architecture that uses only 
+                additions, subtractions, and register delays. Its transfer function can be expressed as:
+              </p>
+              <div class="tabs__equation">
+                <span class="tabs__eq-label">CIC Transfer Function</span>
+                <code class="tabs__eq-code">H(z) = [(1 - z^(-RM)) / (1 - z^(-1))]^N</code>
+              </div>
+              <p>
+                where <strong>R</strong> = decimation ratio (128), <strong>M</strong> = differential delay (1), 
+                and <strong>N</strong> = filter order (number of cascaded stages). Each stage consists of an 
+                integrator section (running at the high sample rate) and a comb section (running at the 
+                decimated output rate).
+              </p>
+              <p>
+                Because the CIC architecture replaces all multiply-accumulate (MAC) operations 
+                <span class="tabs__highlight">(A × B)</span> with simple accumulators and differentiators, 
+                it consumes <strong>0 out of 90 DSP48E1 slices</strong> on the Artix-7 — saving 100% of the 
+                FPGA's dedicated multiplier resources for other IP cores.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Panel 3 -->
+        <div class="tabs__panel" role="tabpanel" id="tab-panel-3" aria-labelledby="tab-btn-3">
+          <div class="tabs__panel-inner">
+            <h3 class="tabs__panel-title">Physical FPGA Utilization — Artix-7 XC7A35T</h3>
+            <div class="tabs__panel-body">
+              <div class="tabs__util-grid">
+                <div class="tabs__util-item">
+                  <span class="tabs__util-value">410</span>
+                  <span class="tabs__util-label">Slice LUTs</span>
+                  <span class="tabs__util-pct">&lt; 2% of 20,800</span>
+                </div>
+                <div class="tabs__util-item">
+                  <span class="tabs__util-value">346</span>
+                  <span class="tabs__util-label">Registers</span>
+                  <span class="tabs__util-pct">&lt; 1% of 41,600</span>
+                </div>
+                <div class="tabs__util-item">
+                  <span class="tabs__util-value">19</span>
+                  <span class="tabs__util-label">Bonded IOBs</span>
+                  <span class="tabs__util-pct">9.5% of 200</span>
+                </div>
+                <div class="tabs__util-item">
+                  <span class="tabs__util-value">0</span>
+                  <span class="tabs__util-label">DSP48E1 Slices</span>
+                  <span class="tabs__util-pct">0% of 90</span>
+                </div>
+              </div>
+              <p>
+                Post-implementation timing analysis in AMD Vivado confirms all paths meet setup and hold 
+                constraints at the 100 MHz master clock. A full <strong>10 ms XSIM simulation</strong> with 
+                gate-level timing annotation verified zero metastable transitions across all clock domain 
+                crossings — from the 512 kHz PDM sampling domain through to the 4 kHz baseband output strobe.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="footer__inner">
+      <!-- Bottom-of-Funnel CTA Buttons -->
+      <div class="footer__cta">
+        <a
+          href="https://github.com/Rahul-Ramteke-11/Artix7-Delta-Sigma-Decimation-Filter"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="navbar__btn"
+        >
+          <svg class="navbar__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.754-1.333-1.754-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          View Source Code
+        </a>
+        <a
+          href="https://www.linkedin.com/in/rahul-ramteke-24110288rr"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="navbar__btn navbar__btn--primary"
+        >
+          <svg class="navbar__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          Connect on LinkedIn
+        </a>
+      </div>
+      <p class="footer__text">
+        © 2026 Rahul Ramteke — Indian Institute of Technology (IIT) Gandhinagar. All rights reserved.
+      </p>
+      <div class="footer__links">
+        <a href="https://github.com/Rahul-Ramteke-11/Artix7-Delta-Sigma-Decimation-Filter" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="footer__dot">·</span>
+        <a href="https://www.linkedin.com/in/rahul-ramteke-24110288rr" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+  </div><!-- /galaxy-wrap -->
+
+  <!-- Main Script -->
+</body>
+</html>
